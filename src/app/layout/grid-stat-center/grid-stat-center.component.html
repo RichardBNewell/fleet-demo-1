@@ -1,0 +1,15 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'Accident Management StatCenter'" [icon]="'fa-wrench'"></app-page-header>
+        <div class="row">
+            <div class="col-xl-3 text-xs-center" *ngFor="let colend of columnendpoints; let colindex = index">
+                <div class="row">
+                    <div class="col-xl-12 text-xs-center" *ngFor="let item of items | slice:(colindex === 0 ? 0 : columnendpoints[colindex - 1]):colend">
+                        <app-card-stat-center [item]="item"></app-card-stat-center>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+   <!-- /.row -->
+</div>

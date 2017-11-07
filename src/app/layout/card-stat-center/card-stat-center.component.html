@@ -1,0 +1,12 @@
+<div class="card mb-3">
+    <div class="card-header card-default" >
+        <h5 class="panel-title" (click)="item.collapsed = !item.collapsed">
+            <i class='fa'
+               [class.fa-chevron-up] = "!item.collapsed"
+               [class.fa-chevron-down] = "item.collapsed" ></i>  {{item.title}}
+        </h5>
+    </div>
+    <div class="card-block" [class.collapse]="item.collapsed">
+        <powerbi-component embedUrl="{{item.embedUrl}}" accessToken="{{item.accessToken}}" type="{{item.type}}" id="{{item.id}}"></powerbi-component>
+    </div>
+</div>
