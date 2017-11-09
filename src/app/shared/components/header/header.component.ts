@@ -9,8 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class HeaderComponent implements OnInit {
 
-    pushRightClass: string = 'push-right';
-    
+    pushRightClass = 'push-right';
     constructor(private translate: TranslateService, public router: Router) {
         this.router.events.subscribe((val) => {
             if (val instanceof NavigationEnd && window.innerWidth <= 992 && this.isToggled()) {
@@ -22,7 +21,7 @@ export class HeaderComponent implements OnInit {
     ngOnInit() {}
 
     isToggled(): boolean {
-        const dom: Element = document.querySelector('body');
+        const dom: Element = <Element>document.querySelector('body');
         return dom.classList.contains(this.pushRightClass);
     }
 

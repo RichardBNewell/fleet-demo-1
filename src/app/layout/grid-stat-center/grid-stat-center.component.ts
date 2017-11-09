@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../router.animations';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-grid-stat-center',
@@ -18,25 +18,33 @@ export class GridStatCenterComponent implements OnInit  {
     }
 
     ngOnInit() {
-        let item;
-        this.items = new Array();
+        interface ItemInterface {
+            embedUrl: string;
+            type: string;
+            title: string;
+            id: string;
+            accessToken: string;
+            collapsed: boolean;
+        };
+        this.items = [];
         this.http.get('https://powerbilivedemobe.azurewebsites.net/api/Tiles/SampleTile')
             .subscribe(data => {
-                item = new Object();
-                item['embedUrl'] = data['embedUrl'];
-                item['type'] = data['type'];
-                item['title'] = data['type'];
-                item['id'] = data['id'];
-                item['accessToken'] = data['embedToken']['token'];
-                item['collapsed'] = false;
+                const item: ItemInterface = {
+                    embedUrl: data['embedUrl'],
+                    type: data['type'],
+                    title: data['type'],
+                    id: data['id'],
+                    accessToken: data['embedToken']['token'],
+                    collapsed: false
+                };
                 this.items.push(item);
-                this.columnendpoints = Array(4)
-                const itemsper1 = Math.floor(this.items.length / this.columnendpoints.length)
-                let remainder = this.items.length - (itemsper1 * this.columnendpoints.length)
+                this.columnendpoints = Array(4);
+                const itemsper1 = Math.floor(this.items.length / this.columnendpoints.length);
+                let remainder = this.items.length - (itemsper1 * this.columnendpoints.length);
                 for (let i = 0; i < this.columnendpoints.length; i++) {
-                    this.columnendpoints[i] = (i === 0 ? itemsper1 : this.columnendpoints[i - 1] + itemsper1)
+                    this.columnendpoints[i] = (i === 0 ? itemsper1 : this.columnendpoints[i - 1] + itemsper1);
                     if (remainder > 0) {
-                        this.columnendpoints[i]++
+                        this.columnendpoints[i]++;
                         remainder--
                     }
                 }
