@@ -16,6 +16,18 @@ export class GridStatCenterComponent implements OnInit  {
     constructor(private http: HttpClient) {
 
     }
+    columncalc() {
+        this.columnendpoints = Array(2);
+        const itemsper1 = Math.floor(this.items.length / this.columnendpoints.length);
+        let remainder = this.items.length - (itemsper1 * this.columnendpoints.length);
+        for (let i = 0; i < this.columnendpoints.length; i++) {
+            this.columnendpoints[i] = (i === 0 ? itemsper1 : this.columnendpoints[i - 1] + itemsper1);
+            if (remainder > 0) {
+                this.columnendpoints[i]++;
+                remainder--
+            }
+        }
+    }
 
     ngOnInit() {
         interface ItemInterface {
@@ -27,27 +39,20 @@ export class GridStatCenterComponent implements OnInit  {
             collapsed: boolean;
         };
         this.items = [];
-        this.http.get('https://powerbilivedemobe.azurewebsites.net/api/Tiles/SampleTile')
+        this.http.get('http://localhost:8861/api/PowerBIToken/')
             .subscribe(data => {
+                console.log(data['token']);
+                console.log(data['embedUrl']);
                 const item: ItemInterface = {
                     embedUrl: data['embedUrl'],
-                    type: data['type'],
-                    title: data['type'],
-                    id: data['id'],
-                    accessToken: data['embedToken']['token'],
+                    type: 'report',
+                    title: 'Report',
+                    id: data['reportId'],
+                    accessToken: data['token'],
                     collapsed: false
                 };
                 this.items.push(item);
-                this.columnendpoints = Array(4);
-                const itemsper1 = Math.floor(this.items.length / this.columnendpoints.length);
-                let remainder = this.items.length - (itemsper1 * this.columnendpoints.length);
-                for (let i = 0; i < this.columnendpoints.length; i++) {
-                    this.columnendpoints[i] = (i === 0 ? itemsper1 : this.columnendpoints[i - 1] + itemsper1);
-                    if (remainder > 0) {
-                        this.columnendpoints[i]++;
-                        remainder--
-                    }
-                }
+                this.columncalc();
             });
 
     }
