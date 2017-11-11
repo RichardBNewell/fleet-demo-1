@@ -6,7 +6,7 @@
                [class.fa-chevron-down] = "item.collapsed" ></i>  {{item.title}}
         </h5>
     </div>
-    <div class="card-block" [class.collapse]="item.collapsed">
+    <div class="card-block" style="height: 400px" [class.collapse]="item.collapsed">
         <powerbi-component embedUrl="{{item.embedUrl}}" accessToken="{{item.accessToken}}" type="{{item.type}}" id="{{item.id}}"></powerbi-component>
     </div>
 </div>
