@@ -3,7 +3,11 @@
         <div class="row">
             <div class="col-xl-6 text-xs-center" *ngFor="let colend of columnendpoints; let colindex = index">
                 <div class="row">
-                    <div class="col-xl-12 text-xs-center" *ngFor="let item of items | slice:(colindex === 0 ? 0 : columnendpoints[colindex - 1]):colend">
+                    <div
+                        class="col-xl-12 text-xs-center card-container"
+                        [attr.data-index-number]="item.index"
+                        *ngFor="let item of items | slice:(colindex === 0 ? 0 : columnendpoints[colindex - 1]):colend"
+                        draggable="true" droppable="true" [dragData]="item" (onDrop)="onCardDrop($event)">
                         <app-card-stat-center [item]="item"></app-card-stat-center>
                     </div>
                 </div>

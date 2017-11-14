@@ -7,7 +7,7 @@ import { PageHeaderModule } from './../../shared';
 import {CardStatCenterComponent} from '../card-stat-center/card-stat-center.component';
 import { PowerBIModule } from 'angular2-powerbi';
 import { HttpClientModule } from '@angular/common/http';
-
+import { NgDragDropModule } from 'ng-drag-drop';
 
 @NgModule({
     imports: [
@@ -15,6 +15,7 @@ import { HttpClientModule } from '@angular/common/http';
         GridStatCenterRoutingModule,
         PageHeaderModule,
         PowerBIModule.forRoot(),
+        NgDragDropModule.forRoot(),
         HttpClientModule
     ],
     declarations: [

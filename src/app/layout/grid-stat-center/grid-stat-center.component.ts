@@ -28,6 +28,35 @@ export class GridStatCenterComponent implements OnInit  {
             }
         }
     }
+    itemsort() {
+        this.items.sort((t1: any, t2: any) => {
+            if (t1.index > t2.index) {
+                return 1;
+            }
+
+            if (t1.nome < t2.nome) {
+                return -1;
+            }
+
+            return 0;
+        });
+        this.items.forEach((obj: any, objindex: number) => {
+            obj.index = objindex;
+        })
+    }
+
+    onCardDrop(e: any) {
+        const dragObj = e.dragData;
+        const oldPos = dragObj.index;
+        const newPos = e.nativeEvent.target.closest('.card-container').dataset.indexNumber;
+        if (newPos < oldPos) {
+            dragObj.index = newPos - 0.5;
+        }else {
+            dragObj.index = newPos + 0.5;
+        }
+        this.itemsort();
+        this.columncalc();
+    }
 
     ngOnInit() {
         interface ItemInterface {
@@ -37,8 +66,34 @@ export class GridStatCenterComponent implements OnInit  {
             id: string;
             accessToken: string;
             collapsed: boolean;
+            index: number
         };
         this.items = [];
+        this.http.get('https://powerbilivedemobe.azurewebsites.net/api/Tiles/SampleTile')
+            .subscribe(data => {
+                const item1: ItemInterface = {
+                    embedUrl: data['embedUrl'],
+                    type: data['type'],
+                    title: data['type'],
+                    id: data['id'],
+                    accessToken: data['embedToken']['token'],
+                    collapsed: false,
+                    index: 1
+                };
+                this.items.push(item1);
+                const item2: ItemInterface = {
+                    embedUrl: data['embedUrl'],
+                    type: data['type'],
+                    title: 'test2',
+                    id: data['id'],
+                    accessToken: data['embedToken']['token'],
+                    collapsed: false,
+                    index: 2
+                };
+                this.items.push(item2);
+                this.itemsort();
+                this.columncalc();
+            });
         this.http.get('http://localhost:8861/api/PowerBIToken/')
             .subscribe(data => {
                 console.log(data['token']);
@@ -49,7 +104,8 @@ export class GridStatCenterComponent implements OnInit  {
                     title: 'Report',
                     id: data['reportId'],
                     accessToken: data['token'],
-                    collapsed: false
+                    collapsed: false,
+                    index: 3
                 };
                 this.items.push(item);
                 this.columncalc();
